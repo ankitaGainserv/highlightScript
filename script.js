@@ -41,11 +41,7 @@ window.onload = () => {
     (e) => {
       e.stopPropagation();
       e.preventDefault();
-      console.log(
-        e.target,
-        e.target.nextElementSibling,
-        e.target.isSameNode(e.target.nextElementSibling)
-      );
+      console.log(e.target);
     },
     true
   );
