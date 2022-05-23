@@ -1,0 +1,8 @@
+.highlighted {
+    background-color: rgb(100, 0, 100, 0.5);
+    border: 1px solid rgb(100, 0, 100);
+    position: absolute;
+    z-index:1000;
+   pointer-events: none !important;
+   cursor: crosshair !important;
+  }
