@@ -5,6 +5,10 @@ window.onload = () => {
   d.style.zIndex = 1000;
   d.style.pointerEvents = "none";
   document.body.appendChild(d);
+  let inputs = document.getElementsByTagName("INPUT");
+  for (let i = 0; i < inputs.length; i++) {
+    inputs[i].disabled = true;
+  }
   window.addEventListener("mouseover", (e) => {
     var pos = e.target.getBoundingClientRect();
 
