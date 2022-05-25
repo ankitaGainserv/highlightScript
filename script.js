@@ -2,7 +2,7 @@ window.onload = () => {
   var d = document.createElement("div");
   d.style.backgroundColor = "rgb(100, 0, 100, 0.5)";
   d.style.position = "absolute";
-  d.style.zIndex = 1000;
+  d.style.zIndex = 2147483647;
   d.style.pointerEvents = "none";
   document.body.appendChild(d);
   let inputs = document.getElementsByTagName("INPUT");
@@ -25,7 +25,6 @@ window.onload = () => {
     d.style.left = left + "px";
     d.style.visibility = "visible";
     d.style.transition = "all 0.3s ease";
-    // d.style.zIndex = 999999999999999;
   });
 
   window.addEventListener("mouseout", (e) => {
@@ -39,15 +38,33 @@ window.onload = () => {
       e.preventDefault();
     });
   }
+  const callback = (obj) => {
+    console.log(obj);
+    //do something with obj
+  };
 
   document.addEventListener(
     "click",
     (e) => {
       e.stopPropagation();
       e.preventDefault();
-      console.log(e.target);
+      let id;
+      if (e.target.attributes.id) {
+        id = e.target.id;
+      } else if (e.target.attributes.class) {
+        let ele = document.getElementsByClassName(e.target.className);
+        if (ele.length > 1) {
+          for (let i = 0; i < ele.length; i++) {
+            if (e.target.isSameNode(ele[i])) {
+              id = e.target.className + "-type-" + i;
+            }
+          }
+        } else {
+          id = e.target.className;
+        }
+      }
+      callback({ id, left: e.pageX, top: e.pageY });
     },
     true
   );
-  //   window.addEventListener("click", (e) => {});
 };
