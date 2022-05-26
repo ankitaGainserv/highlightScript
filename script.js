@@ -50,17 +50,17 @@ window.onload = () => {
       e.preventDefault();
       let id;
       if (e.target.attributes.id) {
-        id = e.target.id;
+        id = `#${e.target.id}`;
       } else if (e.target.attributes.class) {
         let ele = document.getElementsByClassName(e.target.className);
         if (ele.length > 1) {
           for (let i = 0; i < ele.length; i++) {
             if (e.target === ele[i]) {
-              id = e.target.className + "-type-" + i;
+              id = `.${e.target.className + "-type-" + i}`;
             }
           }
         } else {
-          id = e.target.className;
+          id = `.${e.target.className}`;
         }
       } else {
         let { parentNode: currentParent } = e.target;
@@ -68,7 +68,9 @@ window.onload = () => {
           currentParent = currentParent.parentNode;
         }
         let parentId =
-          currentParent.id !== "" ? currentParent.id : currentParent.className;
+          currentParent.id !== ""
+            ? `#${currentParent.id}`
+            : `.${currentParent.className}`;
 
         let allTags = document.getElementsByTagName(e.target.tagName);
         for (let i = 0; i < allTags.length; i++) {
