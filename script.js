@@ -5,13 +5,9 @@ window.onload = () => {
   d.style.zIndex = 2147483647;
   d.style.pointerEvents = "none";
   document.body.appendChild(d);
-  let inputs = document.getElementsByTagName("INPUT");
-  for (let i = 0; i < inputs.length; i++) {
-    inputs[i].disabled = true;
-  }
+
   window.addEventListener("mouseover", (e) => {
     var pos = e.target.getBoundingClientRect();
-
     var scrollTop = window.scrollY || document.documentElement.scrollTop;
     var scrollLeft = window.scrollX || document.documentElement.scrollLeft;
     var width = pos.width;
@@ -30,18 +26,22 @@ window.onload = () => {
   window.addEventListener("mouseout", (e) => {
     d.style.visibility = "hidden";
   });
+  //callback function definition
+  const callback = (obj) => {
+    console.log(obj);
+    //do something with obj
+  };
 
   var links = document.getElementsByTagName("a");
-
+  let inputs = document.getElementsByTagName("INPUT");
+  for (let i = 0; i < inputs.length; i++) {
+    inputs[i].disabled = true;
+  }
   for (var i = 0; i < links.length; i++) {
     links[i].addEventListener("click", (e) => {
       e.preventDefault();
     });
   }
-  const callback = (obj) => {
-    console.log(obj);
-    //do something with obj
-  };
 
   document.addEventListener(
     "click",
@@ -55,12 +55,26 @@ window.onload = () => {
         let ele = document.getElementsByClassName(e.target.className);
         if (ele.length > 1) {
           for (let i = 0; i < ele.length; i++) {
-            if (e.target.isSameNode(ele[i])) {
+            if (e.target === ele[i]) {
               id = e.target.className + "-type-" + i;
             }
           }
         } else {
           id = e.target.className;
+        }
+      } else {
+        let { parentNode: currentParent } = e.target;
+        while (currentParent.id === "" && currentParent.className === "") {
+          currentParent = currentParent.parentNode;
+        }
+        let parentId =
+          currentParent.id !== "" ? currentParent.id : currentParent.className;
+
+        let allTags = document.getElementsByTagName(e.target.tagName);
+        for (let i = 0; i < allTags.length; i++) {
+          if (e.target === allTags[i]) {
+            id = `${parentId}-${e.target.tagName}-type-${i}`;
+          }
         }
       }
       callback({ id, left: e.pageX, top: e.pageY });
